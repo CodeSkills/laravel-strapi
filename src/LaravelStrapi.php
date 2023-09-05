@@ -76,14 +76,14 @@ class LaravelStrapi
         });
     }
 
-    public function entry(string $type, int $id, $fullUrls = true, array $populate = array()): array
+    public function entry(string $type, int $id, $fullUrls = true, array $populate = array(), $locale = 'en'): array
     {
         $url = $this->strapiUrl;
         $cacheKey = self::CACHE_KEY . '.entry.' . $type . '.' . $id;
         $populateString = $this->createPopulateString($populate);
 
         $entry = Cache::remember($cacheKey, $this->cacheTime, function () use ($url, $type, $id, $populateString) {
-            $response = Http::withHeaders($this->headers)->get($url . '/' . $type . '/' . $id . '?' . $populateString);
+            $response = Http::withHeaders($this->headers)->get($url . '/' . $type . '/' . $id . '?' . $populateString . '&locale='.$locale);
 
             return $response->json();
         });
