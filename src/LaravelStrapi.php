@@ -82,7 +82,7 @@ class LaravelStrapi
         $cacheKey = self::CACHE_KEY . '.entry.' . $type . '.' . $id;
         $populateString = $this->createPopulateString($populate);
 
-        $entry = Cache::remember($cacheKey, $this->cacheTime, function () use ($url, $type, $id, $populateString) {
+        $entry = Cache::remember($cacheKey, $this->cacheTime, function () use ($url, $type, $id, $populateString, $locale) {
             $response = Http::withHeaders($this->headers)->get($url . '/' . $type . '/' . $id . '?' . $populateString . '&locale='.$locale);
 
             return $response->json();
